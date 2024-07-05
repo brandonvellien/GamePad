@@ -1,0 +1,40 @@
+body {
+  background-color: grey;
+}
+
+.main-container {
+  display: flex;
+  flex-wrap: wrap; /* Permet de passer à la ligne suivante si l'espace est insuffisant */
+  justify-content: center; /* Centrer les cartes horizontalement */
+  gap: 20px; /* Espacement entre les cartes */
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.card {
+  width: 300px; /* Largeur de la carte */
+  border: 1px solid #ccc; /* Bordure grise */
+  border-radius: 8px; /* Coins arrondis */
+  overflow: hidden; /* Cache le dépassement */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  background-color: white;
+}
+
+.card img {
+  width: 100%; /* Image prend 100% de la largeur */
+  height: 200px; /* Hauteur de l'image */
+}
+
+.card-content {
+  padding: 16px; /* Remplissage interne */
+}
+
+.card-content h3 {
+  font-size: 18px; /* Taille de la police pour le titre */
+  margin-bottom: 10px; /* Marge en bas */
+}
+
+.card-content p {
+  font-size: 14px; /* Taille de la police pour le texte */
+  color: #666; /* Couleur de texte grise */
+}
