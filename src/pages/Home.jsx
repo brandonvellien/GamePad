@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
-import PlatFormFilter from "../components/PlatformFilter";
+import PlatformFilter from "../components/PlatformFilter";
 import GenresFilter from "../components/GenresFilter";
 import SortsFilters from "../components/SortsFilters";
-import { Link } from "react-router-dom";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -15,16 +15,12 @@ const Home = () => {
   const [genres, setGenres] = useState("");
   const [sorts, setSorts] = useState("");
 
-  // requete pour les jeux pertinents du moments
+  // Requête pour les jeux pertinents du moment
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://api.rawg.io/api/games?key=f2394ff2497c48a1b2d59b8ddec2bc71&ordering=-relevance&dates=2024-06-10,2024-07-01&page_size=20"
-        );
-
-        setData(response.data.results);
-        console.log(response.data.results);
+        const response = await axios.get("http://localhost:3000/home");
+        setData(response.data); // Pas de `.results` ici car la réponse de l'API est directement les résultats
         setIsLoading(false);
       } catch (error) {
         console.log("Error", error);
@@ -37,59 +33,71 @@ const Home = () => {
 
   useEffect(() => {
     const fetchSearchResults = async () => {
+      if (!query && !platform && !genres && !sorts) {
+        return;
+      }
+
       try {
-        let url = `https://api.rawg.io/api/games?key=f2394ff2497c48a1b2d59b8ddec2bc71&search=${query}`;
-        // si selection d'une plateform existe alors je rajouter l'url à la query
+        let url = `http://localhost:3000/home/searchresults?query=${query}`;
         if (platform) {
-          url = url + `&platforms=${platform}`;
+          url += `&platform=${platform}`;
         }
         if (genres) {
-          url = url + `&genres=${genres}`;
+          url += `&genres=${genres}`;
         }
         if (sorts) {
-          url = url + `&ordering=${sorts}`;
+          url += `&ordering=${sorts}`;
         }
+        //console.log("Fetching URL: ", url); // Debugging
         const response = await axios.get(url);
-
-        setSearchResults(response.data.results);
+        //console.log("Search results: ", response.data); // Debugging
+        setSearchResults(response.data); // Pas de `.results` ici car la réponse de l'API est directement les résultats
+        //console.log(sorts) // debugg
         setIsLoading(false);
       } catch (error) {
         console.log("error", error);
-        setIsLoading(false);
       }
     };
-    // j'inclus mes filtres quand je tape une recherche
     fetchSearchResults();
   }, [query, platform, genres, sorts]);
 
   const gamesToDisplay = query ? searchResults : data;
-  return isLoading ? (
-    <p> Loading...</p>
-  ) : (
-    <section>
-      <SearchBar className="main-container" query={query} setQuery={setQuery} />
-      {query && (
-        <>
-          <PlatFormFilter platform={platform} setPlatform={setPlatform} />
-          <GenresFilter genres={genres} setGenres={setGenres} />
-          <SortsFilters sorts={sorts} setSorts={setSorts} />
-        </>
-      )}
 
-      <div>{query ? <p>Search Results</p> : <p>Most Relevances Games</p>}</div>
-      <div className="main-container">
-        {gamesToDisplay.map((game) => (
-          <Link to={`/games/${game.id}`}>
-            <div className="card" key={game.id}>
-              <img src={game.background_image} alt={game.name} />
+  return isLoading ? (
+    <p>Loading...</p>
+  ) : (
+    <section className="home-section">
+      <div className="search-filters-container">
+        <SearchBar query={query} setQuery={setQuery} />
+        {query && (
+          <div className="filters">
+            <PlatformFilter platform={platform} setPlatform={setPlatform} />
+            <GenresFilter genres={genres} setGenres={setGenres} />
+            <SortsFilters sorts={sorts} setSorts={setSorts} />
+          </div>
+        )}
+      </div>
+      <div className="results-container">
+        <div className="query-games">
+          {query ? <p>Search Results</p> : <p>Most Relevant Games</p>}
+        </div>
+        <div className="games-grid">
+          {gamesToDisplay.map((game) => (
+            <Link to={`/games/${game.id}`} key={game.id} className="game-card">
+              <img
+                src={game.background_image}
+                alt={game.name}
+                className="game-image"
+              />
               <div className="card-content">
                 <h3>{game.name}</h3>
               </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );
 };
+
 export default Home;

@@ -1,40 +1,69 @@
+/* Home.css */
 body {
-  background-color: grey;
+  background-color: black;
+  color: white;
+  margin: 0;
+  font-family: "Roboto Condensed", sans-serif;
 }
-
-.main-container {
+.home-section {
   display: flex;
-  flex-wrap: wrap; /* Permet de passer à la ligne suivante si l'espace est insuffisant */
-  justify-content: center; /* Centrer les cartes horizontalement */
-  gap: 20px; /* Espacement entre les cartes */
-  max-width: 1600px;
+  flex-direction: column;
+  align-items: center;
   margin: 0 auto;
+  width: 80%;
 }
 
-.card {
-  width: 300px; /* Largeur de la carte */
-  border: 1px solid #ccc; /* Bordure grise */
-  border-radius: 8px; /* Coins arrondis */
-  overflow: hidden; /* Cache le dépassement */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
-  background-color: white;
+.search-filters-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.card img {
-  width: 100%; /* Image prend 100% de la largeur */
-  height: 200px; /* Hauteur de l'image */
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.results-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1f2023;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.game-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: #202020;
+}
+
+.game-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.game-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
 }
 
 .card-content {
-  padding: 16px; /* Remplissage interne */
-}
-
-.card-content h3 {
-  font-size: 18px; /* Taille de la police pour le titre */
-  margin-bottom: 10px; /* Marge en bas */
-}
-
-.card-content p {
-  font-size: 14px; /* Taille de la police pour le texte */
-  color: #666; /* Couleur de texte grise */
+  padding: 10px;
+  text-align: center;
 }
