@@ -6,11 +6,14 @@ const Header = ({ token, handleToken, userImage }) => {
   return (
     <header className="header">
       <div className="header-content">
-        <span className="header-title">My Collection</span>
+        <span className="header-title">
+          <Link to="/">Home</Link>
+          <Link to="/favorites">My Collection</Link>
+        </span>
         {token ? (
           <div className="user-info">
             <img
-              src={userImage || "default-image-url"} // Utilisez userImage ou une URL par défaut
+              src={userImage || "default-image-url"}
               alt="Profile"
               className="profile-image"
             />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const FavorisButton = ({ gameId, token, onFavoriteChange }) => {
+const FavorisButton = ({ game, token, onFavoriteChange }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
@@ -10,29 +10,29 @@ const FavorisButton = ({ gameId, token, onFavoriteChange }) => {
         const response = await axios.get("http://localhost:3000/favorites", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setIsFavorite(response.data.favorites.includes(gameId));
+        setIsFavorite(
+          response.data.favorites.some((fav) => fav.gameId === game.id)
+        );
       } catch (error) {
         console.error("Error checking favorite status:", error);
       }
     };
     if (token) checkFavoriteStatus();
-  }, [gameId, token]);
+  }, [game.id, token]);
 
   const toggleFavorite = async () => {
     try {
-      if (isFavorite) {
-        await axios.delete(`http://localhost:3000/favorites/${gameId}`, {
+      const response = await axios.post(
+        "http://localhost:3000/favorites",
+        {
+          gameId: game.id,
+          gameName: game.name,
+          gameImage: game.background_image,
+        },
+        {
           headers: { Authorization: `Bearer ${token}` },
-        });
-      } else {
-        await axios.post(
-          "http://localhost:3000/favorites",
-          { gameId },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-      }
+        }
+      );
       setIsFavorite(!isFavorite);
       if (onFavoriteChange) onFavoriteChange(!isFavorite);
     } catch (error) {

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import FavorisButton from "../components/FavorisButton";
 
-const Game = ({ token }) => {
+const Game = ({ token, favorites, toggleFavorite }) => {
   const [data, setData] = useState({});
   const [similarGames, setSimilarGames] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -55,6 +55,7 @@ const Game = ({ token }) => {
   }, [gameId]);
 
   const handleFavoriteChange = (isFavorite) => {
+    toggleFavorite(data);
     console.log(isFavorite ? "Added to collection" : "Removed from collection");
   };
 
@@ -92,9 +93,9 @@ const Game = ({ token }) => {
       console.log("Error submitting review:", error);
     }
   };
+
   const handleVote = async (reviewId) => {
     try {
-      // Envoyer la requête de vote au serveur
       const response = await axios.post(
         `http://localhost:3000/reviews/${reviewId}/vote`,
         {},
@@ -103,20 +104,15 @@ const Game = ({ token }) => {
         }
       );
 
-      // Mettre à jour le nombre de votes dans l'état local
       const updatedReviews = reviews.map((review) => {
         if (review._id === reviewId) {
-          // Si c'est la review pour laquelle on a voté, on met à jour son nombre de votes
           return { ...review, votes: response.data.votes };
         }
-        // Sinon, on retourne la review telle quelle
         return review;
       });
 
-      // Mettre à jour l'état avec les nouvelles reviews
       setReviews(updatedReviews);
     } catch (error) {
-      // En cas d'erreur, afficher un message à l'utilisateur
       alert(
         "Erreur lors du vote. Vous avez peut-être déjà voté pour cette review."
       );
@@ -130,7 +126,7 @@ const Game = ({ token }) => {
       <div>
         <h2>{data.name}</h2>
         <FavorisButton
-          gameId={gameId}
+          game={data}
           token={token}
           onFavoriteChange={handleFavoriteChange}
         />
@@ -139,7 +135,25 @@ const Game = ({ token }) => {
         <img src={data.background_image} alt={data.name} />
       </div>
       <div className="game-description">
-        {/* Votre code existant pour afficher les détails du jeu */}
+        <p>Date de sortie : {data.released}</p>
+        <p>Note : {data.rating}</p>
+        <p>Description : {data.description_raw}</p>
+        {data.genres && (
+          <p>Genres : {data.genres.map((genre) => genre.name).join(", ")}</p>
+        )}
+        {data.platforms && (
+          <p>
+            Plateformes :{" "}
+            {data.platforms
+              .map((platform) => platform.platform.name)
+              .join(", ")}
+          </p>
+        )}
+        {data.developers && (
+          <p>
+            Développeurs : {data.developers.map((dev) => dev.name).join(", ")}
+          </p>
+        )}
       </div>
       <div>
         <h3>Reviews</h3>
@@ -173,10 +187,13 @@ const Game = ({ token }) => {
           <div key={review._id}>
             <p>{review.content}</p>
             <p>Note: {review.rating}/5</p>
-            <p>Rating: {review.rating}/5</p>
             <p>Votes: {review.votes || 0}</p>
-
-            <p>By: {review.user.account.username}</p>
+            <p>
+              By:{" "}
+              {review.user && review.user.account
+                ? review.user.account.username
+                : "Anonymous"}
+            </p>
             {token && (
               <button onClick={() => handleVote(review._id)}>Voter</button>
             )}
