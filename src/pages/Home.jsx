@@ -9,18 +9,20 @@ import SortsFilters from "../components/SortsFilters";
 const Home = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [query, setQuery] = useState(""); // la requête de la recherche
-  const [searchResults, setSearchResults] = useState([]); // resultats de la recherche
+  const [query, setQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const [platform, setPlatform] = useState("");
   const [genres, setGenres] = useState("");
   const [sorts, setSorts] = useState("");
+  const [page, setPage] = useState(1);
 
-  // Requête pour les jeux pertinents du moment
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/home");
-        setData(response.data); // Pas de `.results` ici car la réponse de l'API est directement les résultats
+        const response = await axios.get(
+          `http://localhost:3000/home?page=${page}`
+        );
+        setData(response.data.results);
         setIsLoading(false);
       } catch (error) {
         console.log("Error", error);
@@ -29,7 +31,7 @@ const Home = () => {
     };
 
     fetchData();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -38,7 +40,7 @@ const Home = () => {
       }
 
       try {
-        let url = `http://localhost:3000/home/searchresults?query=${query}`;
+        let url = `http://localhost:3000/home/searchresults?query=${query}&page=${page}`;
         if (platform) {
           url += `&platform=${platform}`;
         }
@@ -48,20 +50,27 @@ const Home = () => {
         if (sorts) {
           url += `&ordering=${sorts}`;
         }
-        //console.log("Fetching URL: ", url); // Debugging
         const response = await axios.get(url);
-        //console.log("Search results: ", response.data); // Debugging
-        setSearchResults(response.data); // Pas de `.results` ici car la réponse de l'API est directement les résultats
-        //console.log(sorts) // debugg
+        setSearchResults(response.data.results);
         setIsLoading(false);
       } catch (error) {
         console.log("error", error);
       }
     };
     fetchSearchResults();
-  }, [query, platform, genres, sorts]);
+  }, [query, platform, genres, sorts, page]);
 
   const gamesToDisplay = query ? searchResults : data;
+
+  const goToNextPage = () => {
+    setPage(page + 1);
+  };
+
+  const goToPreviousPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
 
   return isLoading ? (
     <p>Loading...</p>
@@ -94,6 +103,13 @@ const Home = () => {
               </div>
             </Link>
           ))}
+        </div>
+        <div className="pagination">
+          <button onClick={goToPreviousPage} disabled={page === 1}>
+            Previous
+          </button>
+          <span>Page {page}</span>
+          <button onClick={goToNextPage}>Next</button>
         </div>
       </div>
     </section>
