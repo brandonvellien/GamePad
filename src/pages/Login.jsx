@@ -10,10 +10,13 @@ const Login = ({ handleToken }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/user/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://site--backend-gamepad--ynyvw48hxvj2.code.run/user/login",
+        {
+          email,
+          password,
+        }
+      );
       const { token, user } = response.data;
       handleToken(token, user);
       navigate("/");

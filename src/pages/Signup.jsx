@@ -28,7 +28,7 @@ const Signup = ({ handleToken }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/user/signup",
+        "https://site--backend-gamepad--ynyvw48hxvj2.code.run/user/signup",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

@@ -18,7 +18,7 @@ const Game = ({ token, favorites, toggleFavorite }) => {
     const fetchGameDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/home/${gameId}`
+          `https://site--backend-gamepad--ynyvw48hxvj2.code.run/home/${gameId}`
         );
         setData(response.data);
         setIsLoading(false);
@@ -31,7 +31,7 @@ const Game = ({ token, favorites, toggleFavorite }) => {
     const fetchSimilarGames = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/home/${gameId}/similargames`
+          `https://site--backend-gamepad--ynyvw48hxvj2.code.run/home/${gameId}/similargames`
         );
         setSimilarGames(response.data);
       } catch (error) {
@@ -42,7 +42,7 @@ const Game = ({ token, favorites, toggleFavorite }) => {
     const fetchReviews = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/reviews/${gameId}`
+          `https://site--backend-gamepad--ynyvw48hxvj2.code.run/reviews/${gameId}}`
         );
         setReviews(response.data);
       } catch (error) {
@@ -71,7 +71,7 @@ const Game = ({ token, favorites, toggleFavorite }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/reviews",
+        "https://site--backend-gamepad--ynyvw48hxvj2.code.run/reviews",
         {
           game: gameId,
           content: newReview.content,
@@ -98,7 +98,7 @@ const Game = ({ token, favorites, toggleFavorite }) => {
   const handleVote = async (reviewId) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/reviews/${reviewId}/vote`,
+        `https://site--backend-gamepad--ynyvw48hxvj2.code.run/reviews/${reviewId}/vote`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },

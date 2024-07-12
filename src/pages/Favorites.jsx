@@ -9,9 +9,12 @@ const Favorites = ({ token }) => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/favorites", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          "https://site--backend-gamepad--ynyvw48hxvj2.code.run/favorites",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setFavorites(response.data.favorites);
         setIsLoading(false);
       } catch (error) {
@@ -26,7 +29,7 @@ const Favorites = ({ token }) => {
   const handleRemoveFavorite = async (gameId, gameName, gameImage) => {
     try {
       await axios.post(
-        "http://localhost:3000/favorites",
+        "https://site--backend-gamepad--ynyvw48hxvj2.code.run/favorites",
         { gameId, gameName, gameImage },
         { headers: { Authorization: `Bearer ${token}` } }
       );

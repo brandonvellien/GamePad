@@ -7,9 +7,12 @@ const FavorisButton = ({ game, token, onFavoriteChange }) => {
   useEffect(() => {
     const checkFavoriteStatus = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/favorites", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          "https://site--backend-gamepad--ynyvw48hxvj2.code.run/favorites",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setIsFavorite(
           response.data.favorites.some((fav) => fav.gameId === game.id)
         );
@@ -23,7 +26,7 @@ const FavorisButton = ({ game, token, onFavoriteChange }) => {
   const toggleFavorite = async () => {
     try {
       await axios.post(
-        "http://localhost:3000/favorites",
+        "https://site--backend-gamepad--ynyvw48hxvj2.code.run/favorites",
         {
           gameId: game.id,
           gameName: game.name,

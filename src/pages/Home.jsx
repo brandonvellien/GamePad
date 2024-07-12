@@ -21,7 +21,7 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/home?page=${page}`
+          `https://site--backend-gamepad--ynyvw48hxvj2.code.run/home?page=${page}`
         );
         setData(response.data.results);
         setIsLoading(false);
@@ -41,7 +41,7 @@ const Home = () => {
       }
 
       try {
-        let url = `http://localhost:3000/home/searchresults?query=${query}&page=${page}`;
+        let url = `https://site--backend-gamepad--ynyvw48hxvj2.code.run/home/searchresults?query=${query}&page=${page}`;
         if (platform) {
           url += `&platform=${platform}`;
         }
