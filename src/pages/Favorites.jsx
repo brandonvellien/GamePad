@@ -23,11 +23,11 @@ const Favorites = ({ token }) => {
     fetchFavorites();
   }, [token]);
 
-  const handleRemoveFavorite = async (gameId) => {
+  const handleRemoveFavorite = async (gameId, gameName, gameImage) => {
     try {
       await axios.post(
         "http://localhost:3000/favorites",
-        { gameId },
+        { gameId, gameName, gameImage },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       // Mettre à jour la liste des favoris après la suppression
@@ -42,27 +42,41 @@ const Favorites = ({ token }) => {
   }
 
   return (
-    <div>
-      <h1>Mes Jeux Favoris</h1>
+    <div className="home-section">
       {favorites.length === 0 ? (
         <p>Vous n'avez pas encore de jeux favoris.</p>
       ) : (
-        favorites.map((game) => (
-          <div key={game.gameId}>
-            <h2>{game.gameName}</h2>
-            {game.gameImage && (
-              <img
-                src={game.gameImage}
-                alt={game.gameName}
-                style={{ width: "200px", height: "auto" }}
-              />
-            )}
-            <button onClick={() => handleRemoveFavorite(game.gameId)}>
-              Retirer des favoris
-            </button>
-            <Link to={`/games/${game.gameId}`}>Voir les détails</Link>
-          </div>
-        ))
+        <div className="favorites-grid">
+          {favorites.map((game) => (
+            <div key={game.gameId} className="favorite-item">
+              <h2>{game.gameName}</h2>
+              {game.gameImage && (
+                <img
+                  src={game.gameImage}
+                  alt={game.gameName}
+                  className="game-image"
+                />
+              )}
+              <div className="buttons-container">
+                <button
+                  className="remove-button"
+                  onClick={() =>
+                    handleRemoveFavorite(
+                      game.gameId,
+                      game.gameName,
+                      game.gameImage
+                    )
+                  }
+                >
+                  Remove from collection
+                </button>
+                <Link to={`/games/${game.gameId}`} className="details-link">
+                  See details
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

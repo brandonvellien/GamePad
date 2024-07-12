@@ -18,7 +18,6 @@ const GenresFilter = ({ genres, setGenres }) => {
         <option value="1">Racing</option>
         <option value="15">Sports</option>
       </select>
-      ;
     </div>
   );
 };

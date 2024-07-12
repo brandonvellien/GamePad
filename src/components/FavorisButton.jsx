@@ -22,7 +22,7 @@ const FavorisButton = ({ game, token, onFavoriteChange }) => {
 
   const toggleFavorite = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:3000/favorites",
         {
           gameId: game.id,
@@ -43,7 +43,7 @@ const FavorisButton = ({ game, token, onFavoriteChange }) => {
   if (!token) return null;
 
   return (
-    <button onClick={toggleFavorite}>
+    <button className="favorites-button" onClick={toggleFavorite}>
       {isFavorite ? "Remove from Collection" : "Add to Collection"}
     </button>
   );

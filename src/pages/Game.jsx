@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import FavorisButton from "../components/FavorisButton";
+import reviewsimg from "/src/assets/img/reviews.png";
+import similargames from "/src/assets/img/similargames.png";
 
 const Game = ({ token, favorites, toggleFavorite }) => {
   const [data, setData] = useState({});
@@ -20,7 +22,6 @@ const Game = ({ token, favorites, toggleFavorite }) => {
         );
         setData(response.data);
         setIsLoading(false);
-        console.log(response.data);
       } catch (error) {
         console.log("error", error);
         setIsLoading(false);
@@ -122,8 +123,8 @@ const Game = ({ token, favorites, toggleFavorite }) => {
   return isLoading ? (
     <p>Loading...</p>
   ) : (
-    <section>
-      <div>
+    <section className="home-section">
+      <div className="game-details">
         <h2>{data.name}</h2>
         <FavorisButton
           game={data}
@@ -131,32 +132,49 @@ const Game = ({ token, favorites, toggleFavorite }) => {
           onFavoriteChange={handleFavoriteChange}
         />
       </div>
-      <div key={data.id}>
-        <img src={data.background_image} alt={data.name} />
+      <div className="gamepictext">
+        <div className="game-media">
+          <img src={data.background_image} alt={data.name} />
+        </div>{" "}
+        <div className="game-description">
+          <p className="details">Released date : </p>
+          <p>{data.released}</p>
+          <p className="details">Rating : </p>
+          <p>{data.rating}</p>
+          <p className="details">Description : </p>
+          <p className="details-description">{data.description_raw}</p>
+          {data.genres && (
+            <p>
+              <span style={{ fontWeight: "bold", fontSize: 20 }}>Genres :</span>{" "}
+              {data.genres.map((genre) => genre.name).join(", ")}
+            </p>
+          )}
+
+          {data.platforms && (
+            <p>
+              <span style={{ fontWeight: "bold", fontSize: 20 }}>
+                {" "}
+                Plateformes :{" "}
+              </span>
+
+              {data.platforms
+                .map((platform) => platform.platform.name)
+                .join(", ")}
+            </p>
+          )}
+          {data.developers && (
+            <p>
+              <span style={{ fontWeight: "bold", fontSize: 20 }}>
+                Développeurs :{" "}
+              </span>
+              {data.developers.map((dev) => dev.name).join(", ")}
+            </p>
+          )}
+        </div>
       </div>
-      <div className="game-description">
-        <p>Date de sortie : {data.released}</p>
-        <p>Note : {data.rating}</p>
-        <p>Description : {data.description_raw}</p>
-        {data.genres && (
-          <p>Genres : {data.genres.map((genre) => genre.name).join(", ")}</p>
-        )}
-        {data.platforms && (
-          <p>
-            Plateformes :{" "}
-            {data.platforms
-              .map((platform) => platform.platform.name)
-              .join(", ")}
-          </p>
-        )}
-        {data.developers && (
-          <p>
-            Développeurs : {data.developers.map((dev) => dev.name).join(", ")}
-          </p>
-        )}
-      </div>
-      <div>
-        <h3>Reviews</h3>
+
+      <div className="reviews">
+        <img src={reviewsimg} alt="reviews-img" />
         {token && (
           <>
             {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
@@ -168,6 +186,11 @@ const Game = ({ token, favorites, toggleFavorite }) => {
                 placeholder="Write your review here"
                 required
               />
+              <br />
+              <button type="submit">Submit Review</button>
+            </form>
+            <div>
+              <span>Rate this Game : </span>
               <select
                 name="rating"
                 value={newReview.rating}
@@ -179,35 +202,47 @@ const Game = ({ token, favorites, toggleFavorite }) => {
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select>
-              <button type="submit">Submit Review</button>
-            </form>
+            </div>
           </>
         )}
         {reviews.map((review) => (
-          <div key={review._id}>
-            <p>{review.content}</p>
-            <p>Note: {review.rating}/5</p>
-            <p>Votes: {review.votes || 0}</p>
+          <div key={review._id} className="review-item">
+            <p className="review-contents">{review.content}</p>
+            <br />
+            <br />
+            <p className="details">Note: </p>
+            <p>{review.rating}/5</p>
+            <br />
+            <p className="details">Votes: </p>
+            <p>{review.votes || 0}</p>
+            <br />
+            <p className="details">By: </p>
+            <br />
             <p>
-              By:{" "}
+              {" "}
               {review.user && review.user.account
                 ? review.user.account.username
                 : "Anonymous"}
             </p>
             {token && (
-              <button onClick={() => handleVote(review._id)}>Voter</button>
+              <button onClick={() => handleVote(review._id, 1)}>Vote</button>
             )}
           </div>
         ))}
       </div>
-      <div>
-        <h3>Similar Games</h3>
-        <ul>
+
+      <div className="similar-games">
+        <img src={similargames} alt="similar-game" />
+        <ul className="games-grid2">
           {similarGames.length > 0 ? (
             similarGames.map((game) => (
-              <li key={game.id}>
+              <li key={game.id} className="game-card">
                 <h4>{game.name}</h4>
-                <img src={game.background_image} alt={game.name} />
+                <img
+                  className="similar-img"
+                  src={game.background_image}
+                  alt={game.name}
+                />
               </li>
             ))
           ) : (

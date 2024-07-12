@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import login from "/src/assets/img/login.gif";
 
 const Login = ({ handleToken }) => {
   const [email, setEmail] = useState("");
@@ -17,13 +18,13 @@ const Login = ({ handleToken }) => {
       handleToken(token, user);
       navigate("/");
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
   return (
     <div className="login-page">
-      <h2>Log In</h2>
+      <img className="signup-logo" src={login} alt="login-img" />
       <form onSubmit={handleLogin}>
         <input
           type="email"
@@ -41,6 +42,9 @@ const Login = ({ handleToken }) => {
         />
         <button type="submit">Log In</button>
       </form>
+      <Link to="/signup">
+        <div className="signup-text">Don't you have an account yet ?</div>
+      </Link>
     </div>
   );
 };

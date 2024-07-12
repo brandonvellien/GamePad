@@ -2,7 +2,7 @@ import React from "react";
 
 const PlatFormFilter = ({ platform, setPlatform }) => {
   return (
-    <div>
+    <div className="select-filter">
       <select
         id="platform"
         value={platform}

@@ -1,19 +1,25 @@
 // Header.jsx
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "/src/assets/img/logo.png";
+import profilpic from "/src/assets/img/profilpic.png";
 
 const Header = ({ token, handleToken, userImage }) => {
   return (
-    <header className="header">
+    <header className="header-container">
       <div className="header-content">
-        <span className="header-title">
-          <Link to="/">Home</Link>
-          <Link to="/favorites">My Collection</Link>
-        </span>
+        <div className="header-logo">
+          <Link to="/">
+            <img src={logo} alt="reacting-games" />
+          </Link>
+        </div>
         {token ? (
           <div className="user-info">
+            <Link to="/favorites">
+              <button>My Collection</button>
+            </Link>
             <img
-              src={userImage || "default-image-url"}
+              src={userImage || profilpic}
               alt="Profile"
               className="profile-image"
             />
@@ -21,8 +27,12 @@ const Header = ({ token, handleToken, userImage }) => {
           </div>
         ) : (
           <div className="auth-buttons">
-            <Link to="/signup">Sign Up</Link>
-            <Link to="/login">Log In</Link>
+            <Link to="/signup">
+              <button>Sign Up</button>
+            </Link>
+            <Link to="/login">
+              <button>Log In</button>
+            </Link>
           </div>
         )}
       </div>

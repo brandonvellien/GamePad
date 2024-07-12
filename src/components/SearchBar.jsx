@@ -17,7 +17,6 @@ const SearchBar = ({ query, setQuery }) => {
         onChange={handleInputChange}
         placeholder="Search for games..."
       />
-      <button type="submit">Search</button>
     </form>
   );
 };

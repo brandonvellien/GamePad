@@ -5,6 +5,7 @@ import SearchBar from "../components/SearchBar";
 import PlatformFilter from "../components/PlatformFilter";
 import GenresFilter from "../components/GenresFilter";
 import SortsFilters from "../components/SortsFilters";
+import mrg from "/src/assets/img/mrg.png";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -77,7 +78,7 @@ const Home = () => {
   ) : (
     <section className="home-section">
       <div className="search-filters-container">
-        <SearchBar query={query} setQuery={setQuery} />
+        <SearchBar className="searchbar" query={query} setQuery={setQuery} />
         {query && (
           <div className="filters">
             <PlatformFilter platform={platform} setPlatform={setPlatform} />
@@ -104,13 +105,13 @@ const Home = () => {
             </Link>
           ))}
         </div>
-        <div className="pagination">
-          <button onClick={goToPreviousPage} disabled={page === 1}>
-            Previous
-          </button>
-          <span>Page {page}</span>
-          <button onClick={goToNextPage}>Next</button>
-        </div>
+      </div>
+      <div className="pagination">
+        <button onClick={goToPreviousPage} disabled={page === 1}>
+          Previous
+        </button>
+        <span>Page {page}</span>
+        <button onClick={goToNextPage}>Next</button>
       </div>
     </section>
   );
