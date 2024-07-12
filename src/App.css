@@ -12,6 +12,7 @@ body {
   align-items: center;
   margin: 0 auto;
   width: 80%;
+  padding-top: 80px;
 }
 .query-games img {
   width: 70%;
@@ -89,7 +90,7 @@ body {
 }
 
 .game-card {
-  display: flex;
+  display: avlex;
   flex-direction: column;
   align-items: center;
   text-decoration: none;
@@ -100,7 +101,7 @@ body {
 
 .game-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 20px rgba(239, 131, 131, 0.2);
 }
 
 .game-image {
@@ -427,7 +428,7 @@ body {
 .reviews,
 .similar-games {
   width: 100%;
-  margin-bottom: 20px;
+  padding-top: 20px;
 }
 
 .review-item {
@@ -589,10 +590,11 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 2fr));
   gap: 20px;
+  padding-top: 120px;
 }
 
 .favorite-item {
-  border: none;
+  border: solid 1px #322c2b;
   padding: 10px;
   border-radius: 5px;
   text-align: center;

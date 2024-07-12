@@ -71,7 +71,7 @@ const Favorites = ({ token }) => {
                     )
                   }
                 >
-                  Remove from collection
+                  Remove
                 </button>
                 <Link to={`/games/${game.gameId}`} className="details-link">
                   See details
