@@ -47,7 +47,7 @@ const Favorites = ({ token }) => {
   return (
     <div className="home-section">
       {favorites.length === 0 ? (
-        <p>Vous n'avez pas encore de jeux favoris.</p>
+        <p>This section is empty</p>
       ) : (
         <div className="favorites-grid">
           {favorites.map((game) => (

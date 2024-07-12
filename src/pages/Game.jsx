@@ -42,7 +42,7 @@ const Game = ({ token, favorites, toggleFavorite }) => {
     const fetchReviews = async () => {
       try {
         const response = await axios.get(
-          `https://site--backend-gamepad--ynyvw48hxvj2.code.run/reviews/${gameId}}`
+          `https://site--backend-gamepad--ynyvw48hxvj2.code.run/reviews/${gameId}`
         );
         setReviews(response.data);
       } catch (error) {
