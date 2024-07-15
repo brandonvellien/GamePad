@@ -648,3 +648,41 @@ body {
   font-weight: bold;
   margin-bottom: 30px;
 }
+
+@media (max-width: 768px) {
+  .home-section {
+    width: 95%;
+  }
+
+  .search-filters-container > form > input {
+    width: 100%;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .games-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  .gamepictext {
+    flex-direction: column;
+  }
+
+  .game-media,
+  .game-description {
+    width: 100%;
+  }
+
+  .header-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .auth-buttons {
+    margin-top: 10px;
+  }
+
+  /* Ajoutez d'autres styles spécifiques aux petits écrans ici */
+}
